@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ConnectionState","A value indicating the current state of a connection."]],"struct":[["Connection","Implementation of reliable UDP based messaging protocol."],["ConnectionID","The Connection ID type."]]});

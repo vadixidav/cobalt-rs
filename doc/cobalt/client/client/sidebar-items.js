@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Client","A server client that uses a reliable UDP connection for unreliable packet transmission."]]});
