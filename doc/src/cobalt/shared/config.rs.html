@@ -34,7 +34,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
                        type="search">
             </div>
         </form>
@@ -99,27 +99,13 @@
 <span id="57">57</span>
 <span id="58">58</span>
 <span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
-<span id="62">62</span>
-<span id="63">63</span>
-<span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
 </pre><pre class='rust '>
-<span class='doccomment'>/// A connection configuration object.</span>
+<span class='doccomment'>/// A generic configuration object.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Config</span> {
 
     <span class='doccomment'>/// Number of packets send per second. Default is `30`.</span>
     <span class='kw'>pub</span> <span class='ident'>send_rate</span>: <span class='ident'>u32</span>,
-
-    <span class='doccomment'>/// Division factor used to reduce the number of packets send per second in</span>
-    <span class='doccomment'>/// case of network congestion. Default is `3`.</span>
-    <span class='kw'>pub</span> <span class='ident'>congestion_divider</span>: <span class='ident'>u32</span>,
 
     <span class='doccomment'>/// Maximum bytes that can be received / send in one packet. Default</span>
     <span class='doccomment'>/// `1400`.</span>
@@ -141,39 +127,33 @@
     <span class='doccomment'>/// connection gets dropped. Default is `1000`.</span>
     <span class='kw'>pub</span> <span class='ident'>connection_drop_threshold</span>: <span class='ident'>u32</span>,
 
-    <span class='doccomment'>/// Maximum RTT in milliseconds before turning on congestion avoidance</span>
-    <span class='doccomment'>/// by throttling the amount of send seconds per second. Default is `250`.</span>
-    <span class='kw'>pub</span> <span class='ident'>congestion_rtt_threshold</span>: <span class='ident'>u32</span>,
+    <span class='doccomment'>/// The percent of available packet bytes to use when serializing</span>
+    <span class='doccomment'>/// `MessageKind::Instant` into a packet via a `MessageQueue`.</span>
+    <span class='kw'>pub</span> <span class='ident'>message_quota_instant</span>: <span class='ident'>f32</span>,
 
-    <span class='doccomment'>/// Interval time in milliseconds between congestion avoidance checks.</span>
-    <span class='doccomment'>/// Default is `10000`.</span>
-    <span class='kw'>pub</span> <span class='ident'>congestion_switch_wait</span>: <span class='ident'>u32</span>,
+    <span class='doccomment'>/// The percent of available packet bytes to use when serializing</span>
+    <span class='doccomment'>/// `MessageKind::Reliable` into a packet via a `MessageQueue`.</span>
+    <span class='kw'>pub</span> <span class='ident'>message_quota_reliable</span>: <span class='ident'>f32</span>,
 
-    <span class='doccomment'>/// Minimum milliseconds between turning on / off congestion avoidance.</span>
-    <span class='doccomment'>/// Default is `1000`.</span>
-    <span class='kw'>pub</span> <span class='ident'>congestion_switch_min_delay</span>: <span class='ident'>u32</span>,
-
-    <span class='doccomment'>/// Maximum milliseconds between turning on / off congestion avoidance.</span>
-    <span class='doccomment'>/// Default is `60000`.</span>
-    <span class='kw'>pub</span> <span class='ident'>congestion_switch_max_delay</span>: <span class='ident'>u32</span>
+    <span class='doccomment'>/// The percent of available packet bytes to use when serializing</span>
+    <span class='doccomment'>/// `MessageKind::Ordered` into a packet via a `MessageQueue`.</span>
+    <span class='kw'>pub</span> <span class='ident'>message_quota_ordered</span>: <span class='ident'>f32</span>
 
 }
 
-<span class='kw'>impl</span> <span class='ident'>Config</span> {
+<span class='kw'>impl</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Config</span> {
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Config</span> {
+    <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='ident'>Config</span> {
         <span class='ident'>Config</span> {
             <span class='ident'>send_rate</span>: <span class='number'>30</span>,
-            <span class='ident'>congestion_divider</span>: <span class='number'>3</span>,
             <span class='ident'>protocol_header</span>: [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>],
             <span class='ident'>packet_max_size</span>: <span class='number'>1400</span>,
             <span class='ident'>packet_drop_threshold</span>: <span class='number'>1000</span>,
             <span class='ident'>connection_init_threshold</span>: <span class='number'>100</span>,
             <span class='ident'>connection_drop_threshold</span>: <span class='number'>1000</span>,
-            <span class='ident'>congestion_rtt_threshold</span>: <span class='number'>250</span>,
-            <span class='ident'>congestion_switch_wait</span>: <span class='number'>10000</span>,
-            <span class='ident'>congestion_switch_min_delay</span>: <span class='number'>1000</span>,
-            <span class='ident'>congestion_switch_max_delay</span>: <span class='number'>60000</span>
+            <span class='ident'>message_quota_instant</span>: <span class='number'>60.0</span>,
+            <span class='ident'>message_quota_reliable</span>: <span class='number'>20.0</span>,
+            <span class='ident'>message_quota_ordered</span>: <span class='number'>20.0</span>
         }
     }
 
@@ -186,44 +166,37 @@
     <section class="footer"></section>
 
     <div id="help" class="hidden">
-        <div>
-            <div class="shortcuts">
-                <h1>Keyboard Shortcuts</h1>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h1>Search Tricks</h1>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>typedef</code> (or
-                    <code>tdef</code>).
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
-                </p>
-            </div>
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
         </div>
     </div>
 

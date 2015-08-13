@@ -34,7 +34,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
                        type="search">
             </div>
         </form>
@@ -45,26 +45,21 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-17' class='srclink' href='../../src/cobalt/shared/config.rs.html#3-48' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-18' class='srclink' href='../../src/cobalt/shared/config.rs.html#3-40' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Config {
     pub send_rate: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
-    pub congestion_divider: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
     pub packet_max_size: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>,
     pub protocol_header: <a href='http://doc.rust-lang.org/nightly/std/primitive.array.html'>[<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>; 4]</a>,
     pub packet_drop_threshold: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
     pub connection_init_threshold: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
     pub connection_drop_threshold: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
-    pub congestion_rtt_threshold: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
-    pub congestion_switch_wait: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
-    pub congestion_switch_min_delay: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
-    pub congestion_switch_max_delay: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
-}</pre><div class='docblock'><p>A connection configuration object.</p>
+    pub message_quota_instant: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>,
+    pub message_quota_reliable: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>,
+    pub message_quota_ordered: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>,
+}</pre><div class='docblock'><p>A generic configuration object.</p>
 </div><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
                                   <td id='structfield.send_rate'><code>send_rate</code></td><td><div class='docblock'><p>Number of packets send per second. Default is <code>30</code>.</p>
-</div></td></tr><tr class='stab '>
-                                  <td id='structfield.congestion_divider'><code>congestion_divider</code></td><td><div class='docblock'><p>Division factor used to reduce the number of packets send per second in
-case of network congestion. Default is <code>3</code>.</p>
 </div></td></tr><tr class='stab '>
                                   <td id='structfield.packet_max_size'><code>packet_max_size</code></td><td><div class='docblock'><p>Maximum bytes that can be received / send in one packet. Default
 <code>1400</code>.</p>
@@ -81,19 +76,16 @@ before a connection attempt fails. Default is <code>100</code>.</p>
                                   <td id='structfield.connection_drop_threshold'><code>connection_drop_threshold</code></td><td><div class='docblock'><p>Maximum time in milliseconds between any two packets before the
 connection gets dropped. Default is <code>1000</code>.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.congestion_rtt_threshold'><code>congestion_rtt_threshold</code></td><td><div class='docblock'><p>Maximum RTT in milliseconds before turning on congestion avoidance
-by throttling the amount of send seconds per second. Default is <code>250</code>.</p>
+                                  <td id='structfield.message_quota_instant'><code>message_quota_instant</code></td><td><div class='docblock'><p>The percent of available packet bytes to use when serializing
+<code>MessageKind::Instant</code> into a packet via a <code>MessageQueue</code>.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.congestion_switch_wait'><code>congestion_switch_wait</code></td><td><div class='docblock'><p>Interval time in milliseconds between congestion avoidance checks.
-Default is <code>10000</code>.</p>
+                                  <td id='structfield.message_quota_reliable'><code>message_quota_reliable</code></td><td><div class='docblock'><p>The percent of available packet bytes to use when serializing
+<code>MessageKind::Reliable</code> into a packet via a <code>MessageQueue</code>.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.congestion_switch_min_delay'><code>congestion_switch_min_delay</code></td><td><div class='docblock'><p>Minimum milliseconds between turning on / off congestion avoidance.
-Default is <code>1000</code>.</p>
-</div></td></tr><tr class='stab '>
-                                  <td id='structfield.congestion_switch_max_delay'><code>congestion_switch_max_delay</code></td><td><div class='docblock'><p>Maximum milliseconds between turning on / off congestion avoidance.
-Default is <code>60000</code>.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h4>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h4>
+                                  <td id='structfield.message_quota_ordered'><code>message_quota_ordered</code></td><td><div class='docblock'><p>The percent of available packet bytes to use when serializing
+<code>MessageKind::Ordered</code> into a packet via a <code>MessageQueue</code>.</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h3><div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/default/trait.Default.html#method.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a></code></h3><div class='impl-items'></div></section>
     <section id='search' class="content hidden"></section>
@@ -101,44 +93,37 @@ Default is <code>60000</code>.</p>
     <section class="footer"></section>
 
     <div id="help" class="hidden">
-        <div>
-            <div class="shortcuts">
-                <h1>Keyboard Shortcuts</h1>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h1>Search Tricks</h1>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>typedef</code> (or
-                    <code>tdef</code>).
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
-                </p>
-            </div>
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
         </div>
     </div>
 

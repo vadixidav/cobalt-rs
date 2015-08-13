@@ -34,7 +34,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
                        type="search">
             </div>
         </form>
@@ -45,68 +45,63 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-2688' class='srclink' href='../../src/cobalt/server/server.rs.html#9-12' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-4439' class='srclink' href='../../src/cobalt/server/server.rs.html#10-14' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Server {
     // some fields omitted
-}</pre><div class='docblock'><p>A multi-client server that uses a reliable UDP connection for
-unreliable packet transmission.</p>
+}</pre><div class='docblock'><p>A multi-client server that uses a virtual UDP connection for reliable
+message transmission.</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../cobalt/server/struct.Server.html' title='cobalt::server::Server'>Server</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(config: <a class='struct' href='../../cobalt/shared/struct.Config.html' title='cobalt::shared::Config'>Config</a>) -&gt; <a class='struct' href='../../cobalt/server/struct.Server.html' title='cobalt::server::Server'>Server</a></code></h4>
-<div class='docblock'><p>Creates a new server with the given connection configuration.</p>
-</div><h4 id='method.bind' class='method'><code>fn <a href='#method.bind' class='fnname'>bind</a>&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/std/net/addr/trait.ToSocketAddrs.html' title='std::net::addr::ToSocketAddrs'>ToSocketAddrs</a>&gt;(&amp;mut self, handler: &amp;mut <a class='trait' href='../../cobalt/shared/handler/trait.Handler.html' title='cobalt::shared::handler::Handler'>Handler</a>&lt;<a class='struct' href='../../cobalt/server/struct.Server.html' title='cobalt::server::Server'>Server</a>&gt;, address: T) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>&gt;</code></h4>
-<div class='docblock'><p>Tries to bind a reliable UDP based server to the specified local
-address which actively listens and manages incoming client connections.</p>
+<div class='docblock'><p>Creates a new server with the given configuration.</p>
+</div><h4 id='method.local_addr' class='method'><code>fn <a href='#method.local_addr' class='fnname'>local_addr</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='http://doc.rust-lang.org/nightly/std/net/addr/enum.SocketAddr.html' title='std::net::addr::SocketAddr'>SocketAddr</a>&gt;</code></h4>
+<div class='docblock'><p>Returns the local address the server is currently bound to.</p>
+</div><h4 id='method.bind' class='method'><code>fn <a href='#method.bind' class='fnname'>bind</a>&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/std/net/addr/trait.ToSocketAddrs.html' title='std::net::addr::ToSocketAddrs'>ToSocketAddrs</a>&gt;(&amp;mut self, handler: &amp;mut <a class='trait' href='../../cobalt/shared/traits/trait.Handler.html' title='cobalt::shared::traits::Handler'>Handler</a>&lt;<a class='struct' href='../../cobalt/server/struct.Server.html' title='cobalt::server::Server'>Server</a>&gt;, address: T) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Tries to bind the server to the specified local address and actively
+listens for and manages incoming client connections.</p>
 
-<p>The clients must use a compatible connection configuration in order for
+<p>The clients must use a compatible configuration in order for
 connections to be actually established.</p>
 
 <p>The <code>handler</code> is a struct that implements the <code>Handler</code> trait in order
 to handle events from the server and its connections.</p>
 </div><h4 id='method.shutdown' class='method'><code>fn <a href='#method.shutdown' class='fnname'>shutdown</a>(&amp;mut self)</code></h4>
-<div class='docblock'><p>Shutsdown the server, closing all its active connections.</p>
+<div class='docblock'><p>Shuts down the server, closing all active connections.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 
     <div id="help" class="hidden">
-        <div>
-            <div class="shortcuts">
-                <h1>Keyboard Shortcuts</h1>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h1>Search Tricks</h1>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>typedef</code> (or
-                    <code>tdef</code>).
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
-                </p>
-            </div>
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
         </div>
     </div>
 

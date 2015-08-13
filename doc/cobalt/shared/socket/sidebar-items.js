@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Socket","A Non-blocking abstraction over a UDP socket."]],"type":[["SocketReader","A channel receiver for UDP packets."]]});

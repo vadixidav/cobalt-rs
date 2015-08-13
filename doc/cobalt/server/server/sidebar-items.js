@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Server","A multi-client server that uses a reliable UDP connection for unreliable packet transmission."]]});
+initSidebarItems({"struct":[["Server","A multi-client server that uses a virtual UDP connection for reliable message transmission."]]});

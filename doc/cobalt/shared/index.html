@@ -34,7 +34,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
                        type="search">
             </div>
         </form>
@@ -45,26 +45,34 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-4' class='srclink' href='../../src/cobalt/shared/mod.rs.html#1-9' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Structures related to UDP connection handling.</p>
-</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
-<table><tr><td><code>pub use self::<a class='mod'
-                                            href='./handler/index.html'>handler</a>::<a class='trait' href='../../cobalt/shared/handler/trait.Handler.html' title='cobalt::shared::handler::Handler'>Handler</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+        </span><a id='src-4' class='srclink' href='../../src/cobalt/shared/mod.rs.html#1-14' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Connection and message handling.</p>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                     <tr class=' module-item'>
-                        <td><a class='mod' href='handler/index.html'
-                               title='cobalt::shared::handler'>handler</a></td>
+                        <td><a class='mod' href='traits/index.html'
+                               title='cobalt::shared::traits'>traits</a></td>
                         <td class='docblock short'>
-                             
+                             <p>Traits for customizable connection handling.</p>
+
                         </td>
                     </tr>
                 </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr class=' module-item'>
+                        <td><a class='struct' href='struct.BinaryRateLimiter.html'
+                               title='cobalt::shared::BinaryRateLimiter'>BinaryRateLimiter</a></td>
+                        <td class='docblock short'>
+                             <p>A basic, binary state rate limiter for congestion avoidance.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='struct' href='struct.Config.html'
                                title='cobalt::shared::Config'>Config</a></td>
                         <td class='docblock short'>
-                             <p>A connection configuration object.</p>
+                             <p>A generic configuration object.</p>
 
                         </td>
                     </tr>
@@ -88,8 +96,19 @@
                     </tr>
                 
                     <tr class=' module-item'>
-                        <td><a class='struct' href='struct.Socket.html'
-                               title='cobalt::shared::Socket'>Socket</a></td>
+                        <td><a class='struct' href='struct.MessageQueue.html'
+                               title='cobalt::shared::MessageQueue'>MessageQueue</a></td>
+                        <td class='docblock short'>
+                             <p>A queue that manages the sending and receival of both reliable and
+unreliable message types and also supports in order transmission of
+messages.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.UdpSocket.html'
+                               title='cobalt::shared::UdpSocket'>UdpSocket</a></td>
                         <td class='docblock short'>
                              <p>A Non-blocking abstraction over a UDP socket.</p>
 
@@ -105,13 +124,12 @@
 
                         </td>
                     </tr>
-                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
-<table>
+                
                     <tr class=' module-item'>
-                        <td><a class='type' href='type.SocketReader.html'
-                               title='cobalt::shared::SocketReader'>SocketReader</a></td>
+                        <td><a class='enum' href='enum.MessageKind.html'
+                               title='cobalt::shared::MessageKind'>MessageKind</a></td>
                         <td class='docblock short'>
-                             <p>A channel receiver for UDP packets.</p>
+                             <p>Enum determing the way messages are send and received over connections.</p>
 
                         </td>
                     </tr>
@@ -121,44 +139,37 @@
     <section class="footer"></section>
 
     <div id="help" class="hidden">
-        <div>
-            <div class="shortcuts">
-                <h1>Keyboard Shortcuts</h1>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h1>Search Tricks</h1>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>typedef</code> (or
-                    <code>tdef</code>).
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
-                </p>
-            </div>
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
         </div>
     </div>
 

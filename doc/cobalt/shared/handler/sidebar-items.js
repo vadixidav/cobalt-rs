@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["Handler","Trait for implementation of client / server event handling."]]});
