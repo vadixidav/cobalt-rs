@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Config","A generic configuration object."]]});
+initSidebarItems({"struct":[["Config","Structure defining connection and message configuration options."]]});

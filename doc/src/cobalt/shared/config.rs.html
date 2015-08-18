@@ -100,7 +100,7 @@
 <span id="58">58</span>
 <span id="59">59</span>
 </pre><pre class='rust '>
-<span class='doccomment'>/// A generic configuration object.</span>
+<span class='doccomment'>/// Structure defining connection and message configuration options.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Config</span> {
 
@@ -115,8 +115,8 @@
     <span class='doccomment'>/// `[1, 2, 3, 4]`.</span>
     <span class='kw'>pub</span> <span class='ident'>protocol_header</span>: [<span class='ident'>u8</span>; <span class='number'>4</span>],
 
-    <span class='doccomment'>/// Maximum RTT in milliseconds before a packet is considered lost. Default</span>
-    <span class='doccomment'>/// is `1000`.</span>
+    <span class='doccomment'>/// Maximum roundtrip-time in milliseconds before a packet is considered</span>
+    <span class='doccomment'>/// lost. Default is `1000`.</span>
     <span class='kw'>pub</span> <span class='ident'>packet_drop_threshold</span>: <span class='ident'>u32</span>,
 
     <span class='doccomment'>/// Maximum time in milliseconds until the first packet must be received</span>

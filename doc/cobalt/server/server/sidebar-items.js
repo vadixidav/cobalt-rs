@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Server","A multi-client server that uses a virtual UDP connection for reliable message transmission."]]});

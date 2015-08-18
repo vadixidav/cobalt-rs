@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Server","A multi-client server that uses a virtual UDP connection for reliable message transmission."]]});
+initSidebarItems({"struct":[["Server","Implementation of a multi-client server implementation with handler based event dispatching."]]});

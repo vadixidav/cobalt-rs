@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Client","A server client that uses a virtual UDP connection for reliable message transmission."]]});
+initSidebarItems({"struct":[["Client","Implementation of a single-server client implementation with handler based event dispatching."]]});

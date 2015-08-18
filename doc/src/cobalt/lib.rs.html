@@ -167,48 +167,82 @@
 <span id="125">125</span>
 <span id="126">126</span>
 <span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
 </pre><pre class='rust '>
-<span class='doccomment'>//! The main crate for cobalt.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Overview</span>
-<span class='doccomment'>//!</span>
 <span class='doccomment'>//! **cobalt** is a networking library which provides [virtual connections</span>
 <span class='doccomment'>//! over UDP](http://gafferongames.com/networking-for-game-programmers/udp-vs-tcp/)</span>
-<span class='doccomment'>//! and provides a messaging layer for sending both unreliable as well as</span>
-<span class='doccomment'>//! reliable and optionally ordered messages.</span>
+<span class='doccomment'>//! along with a messaging layer for sending both unreliable, reliable as well</span>
+<span class='doccomment'>//! as ordered messages.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! It is primarily designed to be used as the basis for realtime, latency</span>
-<span class='doccomment'>//! limited, multi client systems such as fast paced action games.</span>
+<span class='doccomment'>//! It is primarily designed to be used as the basis for real-time, latency</span>
+<span class='doccomment'>//! bound, multi client systems.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! The library provides the underlying architecture required for handling and</span>
-<span class='doccomment'>//! maintaining virtual connections over a UDP socket and sending reliable</span>
-<span class='doccomment'>//! messages over the established client-server connections.</span>
+<span class='doccomment'>//! maintaining virtual connections over UDP sockets and takes care of sending</span>
+<span class='doccomment'>//! reliable, raw messages over the established client-server connections with</span>
+<span class='doccomment'>//! minimal overhead.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! One of the main goals is to keep the overall overhead for connection</span>
-<span class='doccomment'>//! management and message de-/serialization small, while also providing a</span>
-<span class='doccomment'>//! clean API for easy implementation of use defined server and client logic.</span>
+<span class='doccomment'>//! cobalt is also fully configurable and can be plugged in a variety of ways,</span>
+<span class='doccomment'>//! so that library users have the largest possible degree of control over</span>
+<span class='doccomment'>//! the behavior of their connections.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Configuration is also an important factor when it comes to network</span>
-<span class='doccomment'>//! interaction and so cobalt allows to configure connections and their</span>
-<span class='doccomment'>//! behavior to the largest possible degree.</span>
+<span class='doccomment'>//! ## Getting started</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Basic Server Handler</span>
+<span class='doccomment'>//! When working with **cobalt** the most important part is implementing the so</span>
+<span class='doccomment'>//! called handlers. A `Handler` is a trait which acts as a event proxy for</span>
+<span class='doccomment'>//! both server and client events that are emitted from the underlying tick</span>
+<span class='doccomment'>//! loop.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! The basis of a system that uses **cobalt** is to implementing a so called</span>
-<span class='doccomment'>//! `Handler`, which receives will hav its methods called for all kinds of</span>
-<span class='doccomment'>//! different server / client related events.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Below is a very basic example implementation for a game server.</span>
+<span class='doccomment'>//! Below follows a very basic example implementation of a custom game server.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! struct GameServer {</span>
-<span class='doccomment'>//!     motd: String</span>
-<span class='doccomment'>//! }</span>
+<span class='doccomment'>//! use std::collections::HashMap;</span>
+<span class='doccomment'>//! use cobalt::{Config, Connection, ConnectionID, Handler, Server};</span>
 <span class='doccomment'>//!</span>
+<span class='doccomment'>//! struct GameServer;</span>
 <span class='doccomment'>//! impl Handler&lt;Server&gt; for GameServer {</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!     fn bind(&amp;mut self, _: &amp;mut Server) {</span>
-<span class='doccomment'>//!         // Load level, connect to master server etc.</span>
+<span class='doccomment'>//!     fn bind(&amp;mut self, server: &amp;mut Server) {</span>
+<span class='doccomment'>//!         // Since this is a runnable doc, we&#39;ll just exit right away</span>
+<span class='doccomment'>//!         server.shutdown();</span>
 <span class='doccomment'>//!     }</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//!     fn tick_connections(</span>
@@ -241,17 +275,25 @@
 <span class='doccomment'>//!     }</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! }</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let mut handler = GameServer;</span>
+<span class='doccomment'>//! let mut server = Server::new(Config::default());</span>
+<span class='doccomment'>//! server.bind(&amp;mut handler, &quot;127.0.0.1:7156&quot;).unwrap();</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! And the client version would look almost identical except for a few methods</span>
-<span class='doccomment'>//! having differnt names.</span>
+<span class='doccomment'>//! having different names.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! use std::collections::HashMap;</span>
+<span class='doccomment'>//! use cobalt::{Config, Connection, Handler, Client};</span>
+<span class='doccomment'>//!</span>
 <span class='doccomment'>//! struct GameClient;</span>
 <span class='doccomment'>//! impl Handler&lt;Client&gt; for GameClient {</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!     fn connect(&amp;mut self, _: &amp;mut Client) {</span>
-<span class='doccomment'>//!         // Load game data etc.</span>
+<span class='doccomment'>//!     fn connect(&amp;mut self, client: &amp;mut Client) {</span>
+<span class='doccomment'>//!         // Since this is a runnable doc, we&#39;ll just exit right away</span>
+<span class='doccomment'>//!         client.close();</span>
 <span class='doccomment'>//!     }</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//!     fn tick_connection(&amp;mut self, _: &amp;mut Client, conn: &amp;mut Connection) {</span>
@@ -283,17 +325,53 @@
 <span class='doccomment'>//!     }</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! }</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let mut handler = GameClient;</span>
+<span class='doccomment'>//! let mut client = Client::new(Config::default());</span>
+<span class='doccomment'>//! client.connect(&amp;mut handler, &quot;127.0.0.1:7156&quot;).unwrap();</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
 
-<span class='doccomment'>/// Connection and message handling.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>shared</span>;
+<span class='kw'>mod</span> <span class='ident'>client</span>;
+<span class='kw'>mod</span> <span class='ident'>server</span>;
 
-<span class='doccomment'>/// A multi-client UDP server implementation.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>server</span>;
+<span class='kw'>mod</span> <span class='ident'>shared</span> {
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>binary_rate_limiter</span>;
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>config</span>;
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>connection</span>;
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>message_queue</span>;
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>udp_socket</span>;
+}
 
-<span class='doccomment'>/// A UDP client implementation.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>client</span>;
+<span class='kw'>mod</span> <span class='ident'>traits</span> {
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>handler</span>;
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>rate_limiter</span>;
+    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>socket</span>;
+}
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shared</span>::<span class='ident'>config</span>::<span class='ident'>Config</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shared</span>::<span class='ident'>connection</span>::{<span class='ident'>Connection</span>, <span class='ident'>ConnectionID</span>, <span class='ident'>ConnectionState</span>};
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shared</span>::<span class='ident'>message_queue</span>::<span class='ident'>MessageKind</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shared</span>::<span class='ident'>binary_rate_limiter</span>::<span class='ident'>BinaryRateLimiter</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>traits</span>::<span class='ident'>handler</span>::<span class='ident'>Handler</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>traits</span>::<span class='ident'>rate_limiter</span>::<span class='ident'>RateLimiter</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>client</span>::<span class='ident'>Client</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>server</span>::<span class='ident'>Server</span>;
 
 </pre>
 </section>
