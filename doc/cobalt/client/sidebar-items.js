@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Client","Implementation of a single-server client implementation with handler based event dispatching."]]});
+initSidebarItems({"struct":[["Client","Implementation of a single-server client with handler based event dispatch."]]});

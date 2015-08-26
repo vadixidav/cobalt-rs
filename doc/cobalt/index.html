@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/cobalt/lib.rs.html#1-165' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/cobalt/lib.rs.html#1-175' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p><strong>cobalt</strong> is a networking library which provides <a href="http://gafferongames.com/networking-for-game-programmers/udp-vs-tcp/">virtual connections
 over UDP</a>
 along with a messaging layer for sending both unreliable, reliable as well
@@ -182,8 +182,7 @@ having different names.</p>
                         <td><a class='struct' href='struct.Client.html'
                                title='cobalt::Client'>Client</a></td>
                         <td class='docblock short'>
-                             <p>Implementation of a single-server client implementation with handler based
-event dispatching.</p>
+                             <p>Implementation of a single-server client with handler based event dispatch.</p>
 
                         </td>
                     </tr>
@@ -201,7 +200,7 @@ event dispatching.</p>
                         <td><a class='struct' href='struct.Connection.html'
                                title='cobalt::Connection'>Connection</a></td>
                         <td class='docblock short'>
-                             <p>Implementation of reliable UDP based messaging protocol.</p>
+                             <p>Implementation of a reliable, virtual connection logic.</p>
 
                         </td>
                     </tr>
@@ -219,8 +218,7 @@ event dispatching.</p>
                         <td><a class='struct' href='struct.Server.html'
                                title='cobalt::Server'>Server</a></td>
                         <td class='docblock short'>
-                             <p>Implementation of a multi-client server implementation with handler based
-event dispatching.</p>
+                             <p>Implementation of a multi-client server with handler based event dispatch.</p>
 
                         </td>
                     </tr>
@@ -249,7 +247,7 @@ event dispatching.</p>
                         <td><a class='trait' href='trait.Handler.html'
                                title='cobalt::Handler'>Handler</a></td>
                         <td class='docblock short'>
-                             <p>Trait for implementation a proxy which receives client and server events.</p>
+                             <p>Trait for implementation of a client / server event proxy.</p>
 
                         </td>
                     </tr>
@@ -258,7 +256,16 @@ event dispatching.</p>
                         <td><a class='trait' href='trait.RateLimiter.html'
                                title='cobalt::RateLimiter'>RateLimiter</a></td>
                         <td class='docblock short'>
-                             <p>Trait for implementation network congestion avoidance algorithms.</p>
+                             <p>Trait for implementation of a network congestion avoidance algorithm.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Socket.html'
+                               title='cobalt::Socket'>Socket</a></td>
+                        <td class='docblock short'>
+                             <p>Trait for implementation of a non-blocking UDP socket.</p>
 
                         </td>
                     </tr>
