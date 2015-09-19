@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["MessageKind","Enum for specification of a message handling algorithm."]]});

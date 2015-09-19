@@ -1,3 +1,6 @@
-*
+src
+target
+TODO.md
+*.lock
 !doc/
 !.gitignore

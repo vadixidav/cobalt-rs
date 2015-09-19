@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BinaryRateLimiter","Implementation of a binary state rate limiter for congestion avoidance."]]});
