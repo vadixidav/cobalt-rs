@@ -24,17 +24,17 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         
         <p class='location'></p><script>window.sidebarCurrent = {name: 'cobalt', ty: 'mod', relpath: '../'};</script>
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/cobalt/lib.rs.html#1-175' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/cobalt/lib.rs.html#1-225' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p><strong>cobalt</strong> is a networking library which provides <a href="http://gafferongames.com/networking-for-game-programmers/udp-vs-tcp/">virtual connections
 over UDP</a>
 along with a messaging layer for sending both unreliable, reliable as well
@@ -116,8 +116,7 @@ loop.</p>
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>GameServer</span>;
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>server</span> <span class='op'>=</span> <span class='ident'>Server</span>::<span class='ident'>new</span>(<span class='ident'>Config</span>::<span class='ident'>default</span>());
-<span class='ident'>server</span>.<span class='ident'>bind</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>unwrap</span>();
-</pre>
+<span class='ident'>server</span>.<span class='ident'>bind</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>expect</span>(<span class='string'>&quot;Failed to bind server.&quot;</span>);</pre>
 
 <p>And the client version would look almost identical except for a few methods
 having different names.</p>
@@ -165,8 +164,38 @@ having different names.</p>
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>GameClient</span>;
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>new</span>(<span class='ident'>Config</span>::<span class='ident'>default</span>());
-<span class='ident'>client</span>.<span class='ident'>connect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>unwrap</span>();
-</pre>
+<span class='ident'>client</span>.<span class='ident'>connect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>expect</span>(<span class='string'>&quot;Failed to connect.&quot;</span>);</pre>
+
+<h2 id="integration-with-existing-event-loops" class='section-header'><a
+                           href="#integration-with-existing-event-loops">Integration with existing event loops</a></h2>
+<p>When a client already provides its own event loop via a rendering framework
+or game engine, a <strong>synchronous</strong> version of the <code>Client</code> interface is also
+available in order to ease integration in such cases.</p>
+
+<p>In these cases it can also make sense to use a <code>EventQueue</code> like
+implementation of the <code>Handler</code> trait.</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Client</span>, <span class='ident'>Config</span>, <span class='ident'>Connection</span>, <span class='ident'>ConnectionID</span>, <span class='ident'>Handler</span>};
+
+<span class='kw'>struct</span> <span class='ident'>SyncHandler</span>;
+<span class='kw'>impl</span> <span class='ident'>Handler</span><span class='op'>&lt;</span><span class='ident'>Client</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>SyncHandler</span> {}
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>SyncHandler</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>new</span>(<span class='ident'>Config</span>::<span class='ident'>default</span>());
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>connect_sync</span>(
+    <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>,
+    <span class='string'>&quot;127.0.0.1:7156&quot;</span>
+
+).<span class='ident'>expect</span>(<span class='string'>&quot;Failed to connect.&quot;</span>);
+
+<span class='comment'>// Receive from and tick the client connection</span>
+<span class='ident'>client</span>.<span class='ident'>receive_sync</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>);
+<span class='ident'>client</span>.<span class='ident'>tick_sync</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>);
+
+<span class='comment'>// Handle received message and send new ones here</span>
+
+<span class='comment'>// Send any pending messages via the connection</span>
+<span class='ident'>client</span>.<span class='ident'>send_sync</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>);</pre>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr class=' module-item'>
@@ -183,6 +212,15 @@ having different names.</p>
                                title='cobalt::Client'>Client</a></td>
                         <td class='docblock short'>
                              <p>Implementation of a single-server client with handler based event dispatch.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.ClientState.html'
+                               title='cobalt::ClientState'>ClientState</a></td>
+                        <td class='docblock short'>
+                             <p>A structure used for synchronous calls on a <code>Client</code> instance.</p>
 
                         </td>
                     </tr>
@@ -219,6 +257,24 @@ having different names.</p>
                                title='cobalt::Server'>Server</a></td>
                         <td class='docblock short'>
                              <p>Implementation of a multi-client server with handler based event dispatch.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Stats.html'
+                               title='cobalt::Stats'>Stats</a></td>
+                        <td class='docblock short'>
+                             <p>A structure containing stats data average of the course of one second.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.UdpSocket.html'
+                               title='cobalt::UdpSocket'>UdpSocket</a></td>
+                        <td class='docblock short'>
+                             <p>Non-blocking abstraction over a UDP socket.</p>
 
                         </td>
                     </tr>
@@ -274,40 +330,49 @@ having different names.</p>
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

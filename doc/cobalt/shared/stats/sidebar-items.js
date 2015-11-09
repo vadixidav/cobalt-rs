@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Stats","A structure containing stats data average of the course of one second."]]});
