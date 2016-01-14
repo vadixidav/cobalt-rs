@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-25' class='srclink' href='../src/cobalt/client.rs.html#24-31' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-16' class='srclink' href='../src/cobalt/client.rs.html#31-38' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Client {
     // some fields omitted
 }</pre><div class='docblock'><p>Implementation of a single-server client with handler based event dispatch.</p>
@@ -114,7 +114,7 @@ to handle events from the client and its connection.</p>
 
 <p>This method returns a <code>ClientState</code> instance for this client, which can
 be used with other synchronous <code>Client</code> methods.</p>
-</div><h4 id='method.receive_sync' class='method'><code>fn <a href='#method.receive_sync' class='fnname'>receive_sync</a>&lt;S: <a class='trait' href='../cobalt/trait.Socket.html' title='cobalt::Socket'>Socket</a>&gt;(&amp;mut self, handler: &amp;mut <a class='trait' href='../cobalt/trait.Handler.html' title='cobalt::Handler'>Handler</a>&lt;<a class='struct' href='../cobalt/struct.Client.html' title='cobalt::Client'>Client</a>&gt;, state: &amp;mut <a class='struct' href='../cobalt/struct.ClientState.html' title='cobalt::ClientState'>ClientState</a>&lt;S&gt;)</code></h4>
+</div><h4 id='method.receive_sync' class='method'><code>fn <a href='#method.receive_sync' class='fnname'>receive_sync</a>&lt;S: <a class='trait' href='../cobalt/trait.Socket.html' title='cobalt::Socket'>Socket</a>&gt;(&amp;mut self, handler: &amp;mut <a class='trait' href='../cobalt/trait.Handler.html' title='cobalt::Handler'>Handler</a>&lt;<a class='struct' href='../cobalt/struct.Client.html' title='cobalt::Client'>Client</a>&gt;, state: &amp;mut <a class='struct' href='../cobalt/struct.ClientState.html' title='cobalt::ClientState'>ClientState</a>&lt;S&gt;, tick_delay: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</code></h4>
 <div class='docblock'><p>Receives all currently buffered incoming packet from the underlying
 connection.</p>
 </div><h4 id='method.tick_sync' class='method'><code>fn <a href='#method.tick_sync' class='fnname'>tick_sync</a>&lt;S: <a class='trait' href='../cobalt/trait.Socket.html' title='cobalt::Socket'>Socket</a>&gt;(&amp;mut self, handler: &amp;mut <a class='trait' href='../cobalt/trait.Handler.html' title='cobalt::Handler'>Handler</a>&lt;<a class='struct' href='../cobalt/struct.Client.html' title='cobalt::Client'>Client</a>&gt;, state: &amp;mut <a class='struct' href='../cobalt/struct.ClientState.html' title='cobalt::ClientState'>ClientState</a>&lt;S&gt;)</code></h4>

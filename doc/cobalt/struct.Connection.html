@@ -45,15 +45,14 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3015' class='srclink' href='../src/cobalt/shared/connection.rs.html#76-129' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-424' class='srclink' href='../src/cobalt/shared/connection.rs.html#83-136' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Connection {
     // some fields omitted
 }</pre><div class='docblock'><p>Implementation of a reliable, virtual connection logic.</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(config: <a class='struct' href='../cobalt/struct.Config.html' title='cobalt::Config'>Config</a>, local_addr: <a class='enum' href='https://doc.rust-lang.org/nightly/std/net/addr/enum.SocketAddr.html' title='std::net::addr::SocketAddr'>SocketAddr</a>, peer_addr: <a class='enum' href='https://doc.rust-lang.org/nightly/std/net/addr/enum.SocketAddr.html' title='std::net::addr::SocketAddr'>SocketAddr</a>, rate_limiter: <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../cobalt/trait.RateLimiter.html' title='cobalt::RateLimiter'>RateLimiter</a>&gt;) -&gt; <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a></code></h4>
 <div class='docblock'><p>Creates a new Virtual Connection over the given <code>SocketAddr</code>.</p>
 
-<h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>net</span>::<span class='ident'>SocketAddr</span>;
 <span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>BinaryRateLimiter</span>, <span class='ident'>Connection</span>, <span class='ident'>ConnectionState</span>, <span class='ident'>Config</span>};
 
@@ -68,8 +67,7 @@
 </div><h4 id='method.id_from_packet' class='method'><code>fn <a href='#method.id_from_packet' class='fnname'>id_from_packet</a>(config: &amp;<a class='struct' href='../cobalt/struct.Config.html' title='cobalt::Config'>Config</a>, packet: <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../cobalt/struct.ConnectionID.html' title='cobalt::ConnectionID'>ConnectionID</a>&gt;</code></h4>
 <div class='docblock'><p>Extracts a <code>ConnectionID</code> from packet with a valid protocol header.</p>
 
-<h1 id="examples" class='section-header'><a
-                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Connection</span>, <span class='ident'>ConnectionID</span>, <span class='ident'>Config</span>};
 
 <span class='kw'>let</span> <span class='ident'>config</span> <span class='op'>=</span> <span class='ident'>Config</span> {
@@ -96,6 +94,8 @@ packets.</p>
 sending less packets per second in order to resolve the congestion.</p>
 </div><h4 id='method.id' class='method'><code>fn <a href='#method.id' class='fnname'>id</a>(&amp;self) -&gt; <a class='struct' href='../cobalt/struct.ConnectionID.html' title='cobalt::ConnectionID'>ConnectionID</a></code></h4>
 <div class='docblock'><p>Returns the id of the connection.</p>
+</div><h4 id='method.set_id' class='method'><code>fn <a href='#method.set_id' class='fnname'>set_id</a>(&amp;mut self, id: <a class='struct' href='../cobalt/struct.ConnectionID.html' title='cobalt::ConnectionID'>ConnectionID</a>)</code></h4>
+<div class='docblock'><p>Overrides the id of the connection.</p>
 </div><h4 id='method.state' class='method'><code>fn <a href='#method.state' class='fnname'>state</a>(&amp;self) -&gt; <a class='enum' href='../cobalt/enum.ConnectionState.html' title='cobalt::ConnectionState'>ConnectionState</a></code></h4>
 <div class='docblock'><p>Returns the current state of the connection.</p>
 </div><h4 id='method.rtt' class='method'><code>fn <a href='#method.rtt' class='fnname'>rtt</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
@@ -119,7 +119,7 @@ delivered eventually is determined by its <code>MessageKind</code>.</p>
 </div><h4 id='method.received' class='method'><code>fn <a href='#method.received' class='fnname'>received</a>(&amp;mut self) -&gt; MessageIterator</code></h4>
 <div class='docblock'><p>Returns a consuming iterator over all messages received over this
 connections.</p>
-</div><h4 id='method.receive_packet' class='method'><code>fn <a href='#method.receive_packet' class='fnname'>receive_packet</a>&lt;O&gt;(&amp;mut self, packet: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;, owner: &amp;mut O, handler: &amp;mut <a class='trait' href='../cobalt/trait.Handler.html' title='cobalt::Handler'>Handler</a>&lt;O&gt;)</code></h4>
+</div><h4 id='method.receive_packet' class='method'><code>fn <a href='#method.receive_packet' class='fnname'>receive_packet</a>&lt;O&gt;(&amp;mut self, packet: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;, tick_delay: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, owner: &amp;mut O, handler: &amp;mut <a class='trait' href='../cobalt/trait.Handler.html' title='cobalt::Handler'>Handler</a>&lt;O&gt;)</code></h4>
 <div class='docblock'><p>Receives a incoming UDP packet.</p>
 </div><h4 id='method.send_packet' class='method'><code>fn <a href='#method.send_packet' class='fnname'>send_packet</a>&lt;O, S: <a class='trait' href='../cobalt/trait.Socket.html' title='cobalt::Socket'>Socket</a>&gt;(&amp;mut self, socket: &amp;mut S, addr: &amp;<a class='enum' href='https://doc.rust-lang.org/nightly/std/net/addr/enum.SocketAddr.html' title='std::net::addr::SocketAddr'>SocketAddr</a>, owner: &amp;mut O, handler: &amp;mut <a class='trait' href='../cobalt/trait.Handler.html' title='cobalt::Handler'>Handler</a>&lt;O&gt;) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
 <div class='docblock'><p>Send a new outgoing UDP packet.</p>
