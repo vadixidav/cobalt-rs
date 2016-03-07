@@ -9,6 +9,7 @@
 
     <title>cobalt::BinaryRateLimiter - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -45,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-241' class='srclink' href='../src/cobalt/shared/binary_rate_limiter.rs.html#30-39' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-264' class='srclink' href='../src/cobalt/shared/binary_rate_limiter.rs.html#30-39' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct BinaryRateLimiter {
     // some fields omitted
 }</pre><div class='docblock'><p>Implementation of a binary state rate limiter for congestion avoidance.</p>
@@ -54,9 +55,9 @@
 <a href="http://gafferongames.com/networking-for-game-programmers/reliability-and-flow-control/">http://gafferongames.com/networking-for-game-programmers/reliability-and-flow-control/</a></p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../cobalt/struct.BinaryRateLimiter.html' title='cobalt::BinaryRateLimiter'>BinaryRateLimiter</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(config: &amp;<a class='struct' href='../cobalt/struct.Config.html' title='cobalt::Config'>Config</a>) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../cobalt/struct.BinaryRateLimiter.html' title='cobalt::BinaryRateLimiter'>BinaryRateLimiter</a>&gt;</code></h4>
 <div class='docblock'><p>Creates a new rate limiter.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../cobalt/trait.RateLimiter.html' title='cobalt::RateLimiter'>RateLimiter</a> for <a class='struct' href='../cobalt/struct.BinaryRateLimiter.html' title='cobalt::BinaryRateLimiter'>BinaryRateLimiter</a></code></h3><div class='impl-items'><h4 id='method.update' class='method'><code>fn <a href='../cobalt/trait.RateLimiter.html#method.update' class='fnname'>update</a>(&amp;mut self, rtt: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, _: <a href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>)</code></h4>
-<h4 id='method.congested' class='method'><code>fn <a href='../cobalt/trait.RateLimiter.html#method.congested' class='fnname'>congested</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
-<h4 id='method.should_send' class='method'><code>fn <a href='../cobalt/trait.RateLimiter.html#method.should_send' class='fnname'>should_send</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../cobalt/trait.RateLimiter.html' title='cobalt::RateLimiter'>RateLimiter</a> for <a class='struct' href='../cobalt/struct.BinaryRateLimiter.html' title='cobalt::BinaryRateLimiter'>BinaryRateLimiter</a></code></h3><div class='impl-items'><h4 id='method.update' class='method'><code>fn <a href='../cobalt/trait.RateLimiter.html#method.update' class='fnname'>update</a>(&amp;mut self, rtt: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, _: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>)</code></h4>
+<h4 id='method.congested' class='method'><code>fn <a href='../cobalt/trait.RateLimiter.html#method.congested' class='fnname'>congested</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.should_send' class='method'><code>fn <a href='../cobalt/trait.RateLimiter.html#method.should_send' class='fnname'>should_send</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.reset' class='method'><code>fn <a href='../cobalt/trait.RateLimiter.html#method.reset' class='fnname'>reset</a>(&amp;mut self)</code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../cobalt/struct.BinaryRateLimiter.html' title='cobalt::BinaryRateLimiter'>BinaryRateLimiter</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div></section>
@@ -118,6 +119,6 @@
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 
     <title>connection.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
@@ -734,6 +735,17 @@
 <span id="692">692</span>
 <span id="693">693</span>
 <span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2015-2016 Ivo Wetzel</span>
 
@@ -747,6 +759,7 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>net</span>::<span class='ident'>SocketAddr</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>VecDeque</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>message_queue</span>::{<span class='ident'>MessageQueue</span>, <span class='ident'>MessageIterator</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>super</span>::<span class='ident'>traits</span>::<span class='ident'>socket</span>::<span class='ident'>Socket</span>;
@@ -814,6 +827,10 @@
 <span class='doccomment'>/// conflicting ack sequences and message data - both will get dropped shortly.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ConnectionID</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>);
+
+
+<span class='doccomment'>/// Type alias for connection mappings.</span>
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>ConnectionMap</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>ConnectionID</span>, <span class='ident'>Connection</span><span class='op'>&gt;</span>;
 
 <span class='doccomment'>/// Implementation of a reliable, virtual connection logic.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
@@ -1011,6 +1028,12 @@
     <span class='doccomment'>/// Sets the socket address of the remote peer of this connection.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_peer_addr</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>peer_addr</span>: <span class='ident'>SocketAddr</span>) {
         <span class='self'>self</span>.<span class='ident'>peer_address</span> <span class='op'>=</span> <span class='ident'>peer_addr</span>;
+    }
+
+    <span class='doccomment'>/// Overrides the connection&#39;s existing configuration.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_config</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>config</span>: <span class='ident'>Config</span>) {
+        <span class='self'>self</span>.<span class='ident'>config</span> <span class='op'>=</span> <span class='ident'>config</span>;
+        <span class='self'>self</span>.<span class='ident'>message_queue</span>.<span class='ident'>set_config</span>(<span class='ident'>config</span>);
     }
 
     <span class='doccomment'>/// Sends a message of the specified `kind` along with its `payload` over</span>
@@ -1230,8 +1253,8 @@
 
             ).<span class='ident'>expect</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to send compressed packet to {:?}&quot;</span>, <span class='ident'>addr</span>));
 
-            <span class='comment'>// Number of bytes actually sent</span>
-            <span class='ident'>remaining</span>
+            <span class='comment'>// Number of all bytes sent</span>
+            <span class='ident'>remaining</span> <span class='op'>+</span> <span class='ident'>PACKET_HEADER_SIZE</span>
 
         } <span class='kw'>else</span> {
             <span class='ident'>socket</span>.<span class='ident'>send_to</span>(
@@ -1239,7 +1262,7 @@
 
             ).<span class='ident'>expect</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to send packet to {:?}&quot;</span>, <span class='ident'>addr</span>));
 
-            <span class='comment'>// Number of bytes actually sent</span>
+            <span class='comment'>// Number of all bytes sent</span>
             <span class='ident'>packet</span>.<span class='ident'>len</span>()
         };
 
@@ -1489,6 +1512,6 @@
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     
-    <script async src="../../../search-index.js"></script>
+    <script defer src="../../../search-index.js"></script>
 </body>
 </html>
