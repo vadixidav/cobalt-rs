@@ -46,36 +46,39 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/cobalt/lib.rs.html#9-238' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/cobalt/lib.rs.html#9-311' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p><strong>cobalt</strong> is a networking library which provides <a href="http://gafferongames.com/networking-for-game-programmers/udp-vs-tcp/">virtual connections
 over UDP</a>
-along with a messaging layer for sending both unreliable, reliable as well
-as ordered messages.</p>
+for both unreliable, reliable and optional in-order delivery of messages.</p>
 
-<p>It is primarily designed to be used as the basis for real-time, latency
-bound, multi client systems.</p>
+<p>It is primarily designed to be used as the basis of real-time, low latency,
+single server / multi client systems.</p>
 
 <p>The library provides the underlying architecture required for handling and
 maintaining virtual connections over UDP sockets and takes care of sending
-reliable, raw messages over the established client-server connections with
-minimal overhead.</p>
+raw messages over the established client-server connections with minimal
+overhead.</p>
 
-<p>cobalt is also fully configurable and can be plugged in a variety of ways,
-so that library users have the largest possible degree of control over
-the behavior of their connections.</p>
+<p><strong>cobalt</strong> is also fully configurable and can be integrated in a variety of
+ways, as can be seen in the examples below.</p>
 
 <h2 id='getting-started' class='section-header'><a href='#getting-started'>Getting started</a></h2>
-<p>When working with <strong>cobalt</strong> the most important part is implementing the so
-called handlers. A <code>Handler</code> is a trait which acts as a event proxy for
-both server and client events that are emitted from the underlying tick
-loop.</p>
+<p><strong>cobalt</strong> supports a number of different integration strategies, the most
+forward one being the use of so called <em>handlers</em>. The <code>Handler</code> trait acts
+as a event proxy for both server and client events that are emitted from
+the underlying tick loop inside the library.</p>
 
-<p>Below follows a very basic example implementation of a custom game server.</p>
+<h2 id='handler-based-integration' class='section-header'><a href='#handler-based-integration'>Handler based integration</a></h2>
+<p>The handler based approach suits itself especially well for the server side
+where all updates on any connections will be performed inside a single tick
+handler.</p>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Config</span>, <span class='ident'>Connection</span>, <span class='ident'>ConnectionID</span>, <span class='ident'>Handler</span>, <span class='ident'>Server</span>};
+<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Config</span>, <span class='ident'>Connection</span>, <span class='ident'>ConnectionID</span>, <span class='ident'>Handler</span>, <span class='ident'>Server</span>, <span class='ident'>MessageKind</span>};
 
-<span class='kw'>struct</span> <span class='ident'>GameServer</span>;
+<span class='kw'>struct</span> <span class='ident'>GameServer</span> {
+    <span class='ident'>tick</span>: <span class='ident'>u8</span>
+}
 <span class='kw'>impl</span> <span class='ident'>Handler</span><span class='op'>&lt;</span><span class='ident'>Server</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>GameServer</span> {
 
     <span class='kw'>fn</span> <span class='ident'>bind</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>server</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Server</span>) {
@@ -90,12 +93,17 @@ loop.</p>
 
         <span class='kw'>for</span> (_, <span class='ident'>conn</span>) <span class='kw'>in</span> <span class='ident'>connections</span>.<span class='ident'>iter_mut</span>() {
             <span class='comment'>// Receive player input</span>
+            <span class='kw'>for</span> <span class='ident'>msg</span> <span class='kw'>in</span> <span class='ident'>conn</span>.<span class='ident'>received</span>() {
+                <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Received message from client: {:?}&quot;</span>, <span class='ident'>msg</span>);
+            }
         }
 
         <span class='comment'>// Advance game state</span>
+        <span class='self'>self</span>.<span class='ident'>tick</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>tick</span>.<span class='ident'>wrapping_add</span>(<span class='number'>1</span>);
 
+        <span class='comment'>// Send state updates to players</span>
         <span class='kw'>for</span> (_, <span class='ident'>conn</span>) <span class='kw'>in</span> <span class='ident'>connections</span>.<span class='ident'>iter_mut</span>() {
-            <span class='comment'>// Send state to players</span>
+            <span class='ident'>conn</span>.<span class='ident'>send</span>(<span class='ident'>MessageKind</span>::<span class='ident'>Instant</span>, <span class='string'>b&quot;Hello World&quot;</span>.<span class='ident'>to_vec</span>());
         }
 
     }
@@ -114,16 +122,23 @@ loop.</p>
 
 }
 
-<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>GameServer</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>GameServer</span> {
+    <span class='ident'>tick</span>: <span class='number'>0</span>
+};
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>server</span> <span class='op'>=</span> <span class='ident'>Server</span>::<span class='ident'>new</span>(<span class='ident'>Config</span>::<span class='ident'>default</span>());
-<span class='ident'>server</span>.<span class='ident'>bind</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>expect</span>(<span class='string'>&quot;Failed to bind server.&quot;</span>);</pre>
+<span class='ident'>server</span>.<span class='ident'>bind</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>ok</span>();</pre>
 
-<p>And the client version would look almost identical except for a few methods
-having different names.</p>
+<p>The client version of the handler based approach looks almost
+identical - except for a few methods sporting different names.</p>
+
+<p>This method is best used when separate logic / rendering threads are used.</p>
 <pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Config</span>, <span class='ident'>Connection</span>, <span class='ident'>Handler</span>, <span class='ident'>Client</span>};
+<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Config</span>, <span class='ident'>Connection</span>, <span class='ident'>Handler</span>, <span class='ident'>Client</span>, <span class='ident'>MessageKind</span>};
 
-<span class='kw'>struct</span> <span class='ident'>GameClient</span>;
+<span class='kw'>struct</span> <span class='ident'>GameClient</span> {
+    <span class='ident'>tick</span>: <span class='ident'>u8</span>
+};
+
 <span class='kw'>impl</span> <span class='ident'>Handler</span><span class='op'>&lt;</span><span class='ident'>Client</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>GameClient</span> {
 
     <span class='kw'>fn</span> <span class='ident'>connect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>client</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Client</span>) {
@@ -139,8 +154,10 @@ having different names.</p>
         }
 
         <span class='comment'>// Advance game state</span>
+        <span class='self'>self</span>.<span class='ident'>tick</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>tick</span>.<span class='ident'>wrapping_add</span>(<span class='number'>1</span>);
 
-        <span class='comment'>// Send input to server</span>
+        <span class='comment'>// Send some message to server</span>
+        <span class='ident'>conn</span>.<span class='ident'>send</span>(<span class='ident'>MessageKind</span>::<span class='ident'>Instant</span>, <span class='string'>b&quot;Hello World&quot;</span>.<span class='ident'>to_vec</span>());
 
     }
 
@@ -162,19 +179,58 @@ having different names.</p>
 
 }
 
-<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>GameClient</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>GameClient</span> {
+    <span class='ident'>tick</span>: <span class='number'>0</span>
+};
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>new</span>(<span class='ident'>Config</span>::<span class='ident'>default</span>());
-<span class='ident'>client</span>.<span class='ident'>connect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>expect</span>(<span class='string'>&quot;Failed to connect.&quot;</span>);</pre>
+<span class='ident'>client</span>.<span class='ident'>connect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='string'>&quot;127.0.0.1:7156&quot;</span>).<span class='ident'>ok</span>();</pre>
 
-<h2 id='integration-with-existing-event-loops' class='section-header'><a href='#integration-with-existing-event-loops'>Integration with existing event loops</a></h2>
-<p>When a client already provides its own event loop via a rendering framework
-or game engine, a <strong>synchronous</strong> version of the <code>Client</code> interface is also
-available in order to ease integration in such cases.</p>
-
-<p>In these cases it can also make sense to use a <code>EventQueue</code> like
-implementation of the <code>Handler</code> trait.</p>
+<h2 id='stream-based-integration' class='section-header'><a href='#stream-based-integration'>Stream based integration</a></h2>
+<p>For situations where a event loop is already in place (e.g. game engines),
+a stream based approach can be used in order to achieve easier integration
+in single threaded scenarios.</p>
 <pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Client</span>, <span class='ident'>Config</span>, <span class='ident'>Handler</span>};
+<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>ClientEvent</span>, <span class='ident'>ClientStream</span>, <span class='ident'>Config</span>, <span class='ident'>MessageKind</span>};
+
+<span class='comment'>// Create a new stream</span>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stream</span> <span class='op'>=</span> <span class='ident'>ClientStream</span>::<span class='ident'>new</span>(<span class='ident'>Config</span> {
+    <span class='ident'>send_rate</span>: <span class='number'>15</span>,
+    .. <span class='ident'>Default</span>::<span class='ident'>default</span>()
+});
+
+<span class='comment'>// Initiate the connection</span>
+<span class='ident'>stream</span>.<span class='ident'>connect</span>(<span class='string'>&quot;127.0.0.1:5555&quot;</span>).<span class='ident'>ok</span>();
+
+<span class='comment'>// Inside of the existing event loop</span>
+<span class='comment'>// loop {</span>
+
+    <span class='comment'>// Receive incoming messages</span>
+    <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>event</span>) <span class='op'>=</span> <span class='ident'>stream</span>.<span class='ident'>receive</span>() {
+        <span class='kw'>match</span> <span class='ident'>event</span> {
+            <span class='ident'>ClientEvent</span>::<span class='ident'>Connection</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Connection established&quot;</span>),
+            <span class='ident'>ClientEvent</span>::<span class='ident'>ConnectionLost</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Connection lost&quot;</span>),
+            <span class='ident'>ClientEvent</span>::<span class='ident'>Tick</span> <span class='op'>=&gt;</span> {
+                <span class='comment'>// Handle network related logic, advance actual in game time</span>
+            },
+            <span class='ident'>ClientEvent</span>::<span class='ident'>Message</span>(<span class='ident'>payload</span>) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Received message: {:?}&quot;</span>, <span class='ident'>payload</span>),
+            _ <span class='op'>=&gt;</span> {}
+        }
+    }
+
+    <span class='comment'>// Send some messages</span>
+    <span class='ident'>stream</span>.<span class='ident'>send</span>(<span class='ident'>MessageKind</span>::<span class='ident'>Instant</span>, <span class='string'>b&quot;Hello World&quot;</span>.<span class='ident'>to_vec</span>()).<span class='ident'>ok</span>();
+
+    <span class='comment'>// Send outgoing messages</span>
+    <span class='ident'>stream</span>.<span class='ident'>flush</span>().<span class='ident'>ok</span>();
+
+<span class='comment'>// }</span></pre>
+
+<h2 id='low-level-synchronous-integration' class='section-header'><a href='#low-level-synchronous-integration'>Low level synchronous integration</a></h2>
+<p>For times when even the stream based abstraction is too much, there&#39;s also
+the option to use the underlying synchronous client implement on top of
+which both the handler and stream based approaches are built.</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Client</span>, <span class='ident'>Config</span>, <span class='ident'>Handler</span>, <span class='ident'>MessageKind</span>};
 
 <span class='kw'>struct</span> <span class='ident'>SyncHandler</span>;
 <span class='kw'>impl</span> <span class='ident'>Handler</span><span class='op'>&lt;</span><span class='ident'>Client</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>SyncHandler</span> {}
@@ -185,13 +241,16 @@ implementation of the <code>Handler</code> trait.</p>
     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>,
     <span class='string'>&quot;127.0.0.1:7156&quot;</span>
 
-).<span class='ident'>expect</span>(<span class='string'>&quot;Failed to connect.&quot;</span>);
+).<span class='ident'>unwrap</span>();
 
-<span class='comment'>// Receive from and tick the client connection</span>
+<span class='comment'>// Receive from the server</span>
 <span class='ident'>client</span>.<span class='ident'>receive_sync</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>, <span class='number'>0</span>);
+
+<span class='comment'>// Tick the connection</span>
 <span class='ident'>client</span>.<span class='ident'>tick_sync</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>);
 
-<span class='comment'>// Handle received message and send new ones here</span>
+<span class='comment'>// Send a message</span>
+<span class='ident'>state</span>.<span class='ident'>send</span>(<span class='ident'>MessageKind</span>::<span class='ident'>Instant</span>, <span class='string'>b&quot;Hello World&quot;</span>.<span class='ident'>to_vec</span>());
 
 <span class='comment'>// Send any pending messages via the connection</span>
 <span class='ident'>client</span>.<span class='ident'>send_sync</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>handler</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>);</pre>
@@ -225,6 +284,16 @@ implementation of the <code>Handler</code> trait.</p>
                     </tr>
                 
                     <tr class=' module-item'>
+                        <td><a class='struct' href='struct.ClientStream.html'
+                               title='cobalt::ClientStream'>ClientStream</a></td>
+                        <td class='docblock short'>
+                             <p>Implementation of a stream based <code>Client</code> interface suitable for event
+polling.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
                         <td><a class='struct' href='struct.Config.html'
                                title='cobalt::Config'>Config</a></td>
                         <td class='docblock short'>
@@ -246,7 +315,7 @@ implementation of the <code>Handler</code> trait.</p>
                         <td><a class='struct' href='struct.ConnectionID.html'
                                title='cobalt::ConnectionID'>ConnectionID</a></td>
                         <td class='docblock short'>
-                             <p>Representation of a random id for connection identification.</p>
+                             <p>Representation of a random ID for connection identification purposes.</p>
 
                         </td>
                     </tr>
@@ -279,6 +348,15 @@ implementation of the <code>Handler</code> trait.</p>
                     </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.ClientEvent.html'
+                               title='cobalt::ClientEvent'>ClientEvent</a></td>
+                        <td class='docblock short'>
+                             <p>Enum of stream related network events.</p>
+
+                        </td>
+                    </tr>
+                
                     <tr class=' module-item'>
                         <td><a class='enum' href='enum.ConnectionState.html'
                                title='cobalt::ConnectionState'>ConnectionState</a></td>

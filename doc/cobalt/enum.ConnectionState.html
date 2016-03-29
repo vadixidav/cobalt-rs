@@ -46,12 +46,13 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-395' class='srclink' href='../src/cobalt/shared/connection.rs.html#47-68' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-631' class='srclink' href='../src/cobalt/shared/connection.rs.html#53-77' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum ConnectionState {
     Connecting,
     Connected,
     FailedToConnect,
     Lost,
+    Closing,
     Closed,
 }</pre><div class='docblock'><p>Enum indicating the state of a connection.</p>
 </div><h2 class='variants'>Variants</h2>
@@ -63,6 +64,7 @@ received.</p>
 configured time frame for establishing a connection.</p>
 </div></td></tr><tr><td id='variant.Lost'><code>Lost</code></td><td><div class='docblock'><p>The remote did not send any packets within the maximum configured time
 frame between any two packets.</p>
+</div></td></tr><tr><td id='variant.Closing'><code>Closing</code></td><td><div class='docblock'><p>The connection is about to be closed.</p>
 </div></td></tr><tr><td id='variant.Closed'><code>Closed</code></td><td><div class='docblock'><p>The connection has been closed programmatically.</p>
 </div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../cobalt/enum.ConnectionState.html' title='cobalt::ConnectionState'>ConnectionState</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../cobalt/enum.ConnectionState.html' title='cobalt::ConnectionState'>ConnectionState</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../cobalt/enum.ConnectionState.html' title='cobalt::ConnectionState'>ConnectionState</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>

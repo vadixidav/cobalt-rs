@@ -46,17 +46,20 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-425' class='srclink' href='../src/cobalt/shared/connection.rs.html#80' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct ConnectionID(pub <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>);</pre><div class='docblock'><p>Representation of a random id for connection identification.</p>
+        </span><a id='src-663' class='srclink' href='../src/cobalt/shared/connection.rs.html#92' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ConnectionID(pub <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>);</pre><div class='docblock'><p>Representation of a random ID for connection identification purposes.</p>
 
-<p>Used to uniquely* identify the reliable connections. The id is send with
-every packet and is especially helpful in the case of NAT re-assigning
-local UDP ports which would make a address based identification unreliable.</p>
+<p>Used to uniquely* identify the reliable connections. The ID is send with
+every packet and allows to support multiple connections behind NAT. It also
+reduces the chance of connection drop attacks it also and helps with cases
+where NAT re-assigns local UDP ports which would cause purely address based
+packet identification mechanisms to break down.</p>
 
 <blockquote>
-<p>* Since the id is random integer, there is of course a very small chance
-for two clients to end up using the same id, in that case - due to
-conflicting ack sequences and message data - both will get dropped shortly.</p>
+<p>* Since the ID is random integer, there is of course a always a chance
+for two connections to end up with the same ID, in that case - due to
+conflicting ack sequences and message data - both connections will get
+dropped shortly.</p>
 </blockquote>
 </div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../cobalt/struct.ConnectionID.html' title='cobalt::ConnectionID'>ConnectionID</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../cobalt/struct.ConnectionID.html' title='cobalt::ConnectionID'>ConnectionID</a></code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>

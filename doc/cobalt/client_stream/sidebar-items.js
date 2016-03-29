@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ClientEvent","Enum of stream related network events."]],"struct":[["ClientStream","Implementation of a stream based `Client` interface suitable for event polling."]]});
