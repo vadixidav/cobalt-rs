@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/cobalt/lib.rs.html#9-311' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/cobalt/src/lib.rs.html#9-311' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p><strong>cobalt</strong> is a networking library which provides <a href="http://gafferongames.com/networking-for-game-programmers/udp-vs-tcp/">virtual connections
 over UDP</a>
 for both unreliable, reliable and optional in-order delivery of messages.</p>
@@ -72,6 +72,7 @@ the underlying tick loop inside the library.</p>
 <p>The handler based approach suits itself especially well for the server side
 where all updates on any connections will be performed inside a single tick
 handler.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Config</span>, <span class='ident'>Connection</span>, <span class='ident'>ConnectionID</span>, <span class='ident'>Handler</span>, <span class='ident'>Server</span>, <span class='ident'>MessageKind</span>};
@@ -132,6 +133,7 @@ handler.</p>
 identical - except for a few methods sporting different names.</p>
 
 <p>This method is best used when separate logic / rendering threads are used.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Config</span>, <span class='ident'>Connection</span>, <span class='ident'>Handler</span>, <span class='ident'>Client</span>, <span class='ident'>MessageKind</span>};
 
@@ -189,6 +191,7 @@ identical - except for a few methods sporting different names.</p>
 <p>For situations where a event loop is already in place (e.g. game engines),
 a stream based approach can be used in order to achieve easier integration
 in single threaded scenarios.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>ClientEvent</span>, <span class='ident'>ClientStream</span>, <span class='ident'>Config</span>, <span class='ident'>MessageKind</span>};
 
@@ -229,6 +232,7 @@ in single threaded scenarios.</p>
 <p>For times when even the stream based abstraction is too much, there&#39;s also
 the option to use the underlying synchronous client implement on top of
 which both the handler and stream based approaches are built.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>cobalt</span>::{<span class='ident'>Client</span>, <span class='ident'>Config</span>, <span class='ident'>Handler</span>, <span class='ident'>MessageKind</span>};
 
@@ -261,7 +265,6 @@ which both the handler and stream based approaches are built.</p>
                                title='cobalt::BinaryRateLimiter'>BinaryRateLimiter</a></td>
                         <td class='docblock short'>
                              <p>Implementation of a binary state rate limiter for congestion avoidance.</p>
-
                         </td>
                     </tr>
                 
@@ -270,7 +273,6 @@ which both the handler and stream based approaches are built.</p>
                                title='cobalt::Client'>Client</a></td>
                         <td class='docblock short'>
                              <p>Implementation of a single-server client with handler based event dispatch.</p>
-
                         </td>
                     </tr>
                 
@@ -279,7 +281,6 @@ which both the handler and stream based approaches are built.</p>
                                title='cobalt::ClientState'>ClientState</a></td>
                         <td class='docblock short'>
                              <p>A structure used for synchronous calls on a <code>Client</code> instance.</p>
-
                         </td>
                     </tr>
                 
@@ -289,7 +290,6 @@ which both the handler and stream based approaches are built.</p>
                         <td class='docblock short'>
                              <p>Implementation of a stream based <code>Client</code> interface suitable for event
 polling.</p>
-
                         </td>
                     </tr>
                 
@@ -298,7 +298,6 @@ polling.</p>
                                title='cobalt::Config'>Config</a></td>
                         <td class='docblock short'>
                              <p>Structure defining connection and message configuration options.</p>
-
                         </td>
                     </tr>
                 
@@ -307,7 +306,6 @@ polling.</p>
                                title='cobalt::Connection'>Connection</a></td>
                         <td class='docblock short'>
                              <p>Implementation of a reliable, virtual connection logic.</p>
-
                         </td>
                     </tr>
                 
@@ -316,7 +314,6 @@ polling.</p>
                                title='cobalt::ConnectionID'>ConnectionID</a></td>
                         <td class='docblock short'>
                              <p>Representation of a random ID for connection identification purposes.</p>
-
                         </td>
                     </tr>
                 
@@ -325,7 +322,6 @@ polling.</p>
                                title='cobalt::Server'>Server</a></td>
                         <td class='docblock short'>
                              <p>Implementation of a multi-client server with handler based event dispatch.</p>
-
                         </td>
                     </tr>
                 
@@ -334,7 +330,6 @@ polling.</p>
                                title='cobalt::Stats'>Stats</a></td>
                         <td class='docblock short'>
                              <p>A structure containing stats data average of the course of one second.</p>
-
                         </td>
                     </tr>
                 
@@ -343,7 +338,6 @@ polling.</p>
                                title='cobalt::UdpSocket'>UdpSocket</a></td>
                         <td class='docblock short'>
                              <p>Non-blocking abstraction over a UDP socket.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
@@ -353,7 +347,6 @@ polling.</p>
                                title='cobalt::ClientEvent'>ClientEvent</a></td>
                         <td class='docblock short'>
                              <p>Enum of stream related network events.</p>
-
                         </td>
                     </tr>
                 
@@ -362,7 +355,6 @@ polling.</p>
                                title='cobalt::ConnectionState'>ConnectionState</a></td>
                         <td class='docblock short'>
                              <p>Enum indicating the state of a connection.</p>
-
                         </td>
                     </tr>
                 
@@ -371,7 +363,6 @@ polling.</p>
                                title='cobalt::MessageKind'>MessageKind</a></td>
                         <td class='docblock short'>
                              <p>Enum for specification of a message handling algorithm.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
@@ -381,7 +372,6 @@ polling.</p>
                                title='cobalt::Handler'>Handler</a></td>
                         <td class='docblock short'>
                              <p>Trait for implementation of a client / server event proxy.</p>
-
                         </td>
                     </tr>
                 
@@ -390,7 +380,6 @@ polling.</p>
                                title='cobalt::RateLimiter'>RateLimiter</a></td>
                         <td class='docblock short'>
                              <p>Trait for implementation of a network congestion avoidance algorithm.</p>
-
                         </td>
                     </tr>
                 
@@ -399,7 +388,6 @@ polling.</p>
                                title='cobalt::Socket'>Socket</a></td>
                         <td class='docblock short'>
                              <p>Trait for implementation of a non-blocking UDP socket.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
@@ -409,7 +397,6 @@ polling.</p>
                                title='cobalt::ConnectionMap'>ConnectionMap</a></td>
                         <td class='docblock short'>
                              <p>Type alias for connection mappings.</p>
-
                         </td>
                     </tr>
                 </table></section>
@@ -455,7 +442,7 @@ polling.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

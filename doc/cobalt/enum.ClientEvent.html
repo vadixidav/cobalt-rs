@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-172' class='srclink' href='../src/cobalt/client_stream.rs.html#21-55' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-172' class='srclink' href='../src/cobalt/src/client_stream.rs.html#21-55' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum ClientEvent {
     Connect,
     Tick,
@@ -60,19 +60,19 @@
     PacketLost(<a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;),
 }</pre><div class='docblock'><p>Enum of stream related network events.</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.Connect'><code>Connect</code></td><td><div class='docblock'><p>Event emitted when a initial connection attempt to a server is made.</p>
-</div></td></tr><tr><td id='variant.Tick'><code>Tick</code></td><td><div class='docblock'><p>Event emitted each time the stream&#39;s underlying handler&#39;s <code>tick</code> method
+<table class='variants_table'><tr><td id='variant.Connect'><code>Connect</code></td><td><div class='docblock'><p>Event emitted when a initial connection attempt to a server is made.</p>
+</div></td><td></td></tr><tr><td id='variant.Tick'><code>Tick</code></td><td><div class='docblock'><p>Event emitted each time the stream&#39;s underlying handler&#39;s <code>tick</code> method
 would have been invoked.</p>
-</div></td></tr><tr><td id='variant.Close'><code>Close</code></td><td><div class='docblock'><p>Event emitted once the connection to the server has been closed by the
+</div></td><td></td></tr><tr><td id='variant.Close'><code>Close</code></td><td><div class='docblock'><p>Event emitted once the connection to the server has been closed by the
 stream&#39;s <code>close</code> method.</p>
-</div></td></tr><tr><td id='variant.Connection'><code>Connection</code></td><td><div class='docblock'><p>Event emitted once a connection to the server has been established.</p>
-</div></td></tr><tr><td id='variant.ConnectionFailed'><code>ConnectionFailed</code></td><td><div class='docblock'><p>Event emitted when a initial connection attempt to a server failed.</p>
-</div></td></tr><tr><td id='variant.ConnectionLost'><code>ConnectionLost</code></td><td><div class='docblock'><p>Event emitted when a existing connection to a server is lost.</p>
-</div></td></tr><tr><td id='variant.ConnectionClosed'><code>ConnectionClosed</code></td><td><div class='docblock'><p>Event emitted when a connection is closed programmatically.</p>
-</div></td></tr><tr><td id='variant.Message'><code>Message</code></td><td><div class='docblock'><p>Event emitted for each message received from the server.</p>
-</div></td></tr><tr><td id='variant.ConnectionCongestionState'><code>ConnectionCongestionState</code></td><td><div class='docblock'><p>Event emitted each time the stream&#39;s congestion state changes.</p>
-</div></td></tr><tr><td id='variant.PacketLost'><code>PacketLost</code></td><td><div class='docblock'><p>Event emitted each time a packet is lost.</p>
-</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../cobalt/enum.ClientEvent.html' title='cobalt::ClientEvent'>ClientEvent</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../cobalt/enum.ClientEvent.html' title='cobalt::ClientEvent'>ClientEvent</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div></td><td></td></tr><tr><td id='variant.Connection'><code>Connection</code></td><td><div class='docblock'><p>Event emitted once a connection to the server has been established.</p>
+</div></td><td></td></tr><tr><td id='variant.ConnectionFailed'><code>ConnectionFailed</code></td><td><div class='docblock'><p>Event emitted when a initial connection attempt to a server failed.</p>
+</div></td><td></td></tr><tr><td id='variant.ConnectionLost'><code>ConnectionLost</code></td><td><div class='docblock'><p>Event emitted when a existing connection to a server is lost.</p>
+</div></td><td></td></tr><tr><td id='variant.ConnectionClosed'><code>ConnectionClosed</code></td><td><div class='docblock'><p>Event emitted when a connection is closed programmatically.</p>
+</div></td><td></td></tr><tr><td id='variant.Message'><code>Message</code></td><td><div class='docblock'><p>Event emitted for each message received from the server.</p>
+</div></td><td></td></tr><tr><td id='variant.ConnectionCongestionState'><code>ConnectionCongestionState</code></td><td><div class='docblock'><p>Event emitted each time the stream&#39;s congestion state changes.</p>
+</div></td><td></td></tr><tr><td id='variant.PacketLost'><code>PacketLost</code></td><td><div class='docblock'><p>Event emitted each time a packet is lost.</p>
+</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../cobalt/enum.ClientEvent.html' title='cobalt::ClientEvent'>ClientEvent</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../cobalt/enum.ClientEvent.html' title='cobalt::ClientEvent'>ClientEvent</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../cobalt/enum.ClientEvent.html' title='cobalt::ClientEvent'>ClientEvent</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../cobalt/enum.ClientEvent.html' title='cobalt::ClientEvent'>ClientEvent</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div></section>
@@ -118,7 +118,7 @@ stream&#39;s <code>close</code> method.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-1196' class='srclink' href='../src/cobalt/traits/handler.rs.html#14-126' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-1196' class='srclink' href='../src/cobalt/src/traits/handler.rs.html#14-128' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Handler&lt;T&gt; {
     fn <a href='#method.rate_limiter' class='fnname'>rate_limiter</a>(&amp;self, config: &amp;<a class='struct' href='../cobalt/struct.Config.html' title='cobalt::Config'>Config</a>) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../cobalt/trait.RateLimiter.html' title='cobalt::RateLimiter'>RateLimiter</a>&gt; { ... }
     fn <a href='#method.bind' class='fnname'>bind</a>(&amp;mut self, _: &amp;mut T) { ... }
@@ -61,7 +61,7 @@
     fn <a href='#method.connection_lost' class='fnname'>connection_lost</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>) { ... }
     fn <a href='#method.connection_closed' class='fnname'>connection_closed</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>, _: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) { ... }
     fn <a href='#method.connection_packet_lost' class='fnname'>connection_packet_lost</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>, _: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) { ... }
-    fn <a href='#method.connection_packet_compress' class='fnname'>connection_packet_compress</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>, data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a> { ... }
+    fn <a href='#method.connection_packet_compress' class='fnname'>connection_packet_compress</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>, packet: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;, data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt; { ... }
     fn <a href='#method.connection_packet_decompress' class='fnname'>connection_packet_decompress</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>, data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt; { ... }
 }</pre><div class='docblock'><p>Trait for implementation of a client / server event proxy.</p>
 </div>
@@ -91,11 +91,12 @@ changes.</p>
 <p>Note: This method is feature-gated and will only be included when the
 <code>packet_handler_lost</code> feature is enabled.</p>
 </blockquote>
-</div><h3 id='method.connection_packet_compress' class='method stab '><code>fn <a href='#method.connection_packet_compress' class='fnname'>connection_packet_compress</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>, data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h3><div class='docblock'><p>Method that is called for in-place compression purposes before a packet
-is send over the connection&#39;s underlying socket.</p>
+</div><h3 id='method.connection_packet_compress' class='method stab '><code>fn <a href='#method.connection_packet_compress' class='fnname'>connection_packet_compress</a>(&amp;mut self, _: &amp;mut T, _: &amp;mut <a class='struct' href='../cobalt/struct.Connection.html' title='cobalt::Connection'>Connection</a>, packet: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;, data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;</code></h3><div class='docblock'><p>Method that is called for compression purposes before a packet is send
+over the connection&#39;s underlying socket.</p>
 
-<p>The returned <code>usize</code> should indicate the number of data bytes left
-<em>after</em> the in-place compression has been applied.</p>
+<p>The method receives a <code>packet</code> argument which already contains the
+required packet headers. Compressed data should be <em>appended</em> to this
+vector before the vector is returned.</p>
 
 <p>The default implementation does not actually perform any kind of
 compression and leaves the data untouched.</p>
@@ -162,7 +163,7 @@ decompression and returns the data as is.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
