@@ -11,15 +11,12 @@ use std::io::{Error, ErrorKind};
 use std::net::{SocketAddr, ToSocketAddrs};
 use std::sync::mpsc::TryRecvError;
 use shared::udp_socket::UdpSocket;
-use super::{
-    Config, Client, ClientState, Connection, Handler, MessageKind, Stats
-};
+use super::{Config, Client, ClientState, Connection, Handler, MessageKind, Stats};
 
 
 /// Enum of stream related network events.
 #[derive(Debug, PartialEq)]
 pub enum ClientEvent {
-
     /// Event emitted when a initial connection attempt to a server is made.
     Connect,
 
@@ -50,8 +47,7 @@ pub enum ClientEvent {
     ConnectionCongestionState(bool),
 
     /// Event emitted each time a packet is lost.
-    PacketLost(Vec<u8>)
-
+    PacketLost(Vec<u8>),
 }
 
 /// Implementation of a stream based `Client` interface suitable for event
@@ -63,11 +59,10 @@ pub struct ClientStream {
     client: Client,
     state: Option<ClientState<UdpSocket>>,
     tick_rate: u32,
-    should_receive: bool
+    should_receive: bool,
 }
 
 impl ClientStream {
-
     /// Creates a new client stream with the given configuration.
     pub fn new(config: Config) -> ClientStream {
         ClientStream {
@@ -76,7 +71,7 @@ impl ClientStream {
             client: Client::new(config),
             state: None,
             tick_rate: 0,
-            should_receive: false
+            should_receive: false,
         }
     }
 
@@ -89,7 +84,7 @@ impl ClientStream {
             client: client,
             state: None,
             tick_rate: 0,
-            should_receive: false
+            should_receive: false,
         }
     }
 
@@ -161,7 +156,10 @@ impl ClientStream {
             // Clear any previous stream events
             self.handler.clear();
 
-            let mut state = self.client.connect_sync(&mut self.handler, addr).unwrap();
+            let mut state = match self.client.connect_sync(&mut self.handler, addr) {
+                Ok(s) => s,
+                Err(e) => return Err(e),
+            };
             state.set_config(self.config);
 
             self.tick_rate = self.config.send_rate;
@@ -190,9 +188,7 @@ impl ClientStream {
                 self.should_receive = false;
 
                 let mut state = self.state.as_mut().unwrap();
-                self.client.receive_sync(
-                    &mut self.handler, &mut state, 1000 / self.tick_rate
-                );
+                self.client.receive_sync(&mut self.handler, &mut state, 1000 / self.tick_rate);
                 self.client.tick_sync(&mut self.handler, &mut state);
 
             }
@@ -246,21 +242,17 @@ impl ClientStream {
             Err(Error::new(ErrorKind::NotConnected, ""))
         }
     }
-
 }
 
 
 #[derive(Debug, Default)]
 struct StreamHandler {
-    events: VecDeque<ClientEvent>
+    events: VecDeque<ClientEvent>,
 }
 
 impl StreamHandler {
-
     fn new() -> StreamHandler {
-        StreamHandler {
-            events: VecDeque::new()
-        }
+        StreamHandler { events: VecDeque::new() }
     }
 
     fn try_recv(&mut self) -> Option<ClientEvent> {
@@ -270,18 +262,14 @@ impl StreamHandler {
     fn clear(&mut self) {
         self.events.clear();
     }
-
 }
 
 impl Handler<Client> for StreamHandler {
-
     fn connect(&mut self, _: &mut Client) {
         self.events.push_back(ClientEvent::Connect);
     }
 
-    fn tick_connection(
-        &mut self, _: &mut Client, conn: &mut Connection
-    ) {
+    fn tick_connection(&mut self, _: &mut Client, conn: &mut Connection) {
 
         for msg in conn.received() {
             self.events.push_back(ClientEvent::Message(msg));
@@ -303,9 +291,7 @@ impl Handler<Client> for StreamHandler {
         self.events.push_back(ClientEvent::ConnectionFailed);
     }
 
-    fn connection_packet_lost(
-        &mut self, _: &mut Client, _: &mut Connection, data: &[u8]
-    ) {
+    fn connection_packet_lost(&mut self, _: &mut Client, _: &mut Connection, data: &[u8]) {
         self.events.push_back(ClientEvent::PacketLost(data.to_vec()));
     }
 
@@ -320,6 +306,4 @@ impl Handler<Client> for StreamHandler {
     fn connection_closed(&mut self, _: &mut Client, _: &mut Connection, by_remote: bool) {
         self.events.push_back(ClientEvent::ConnectionClosed(by_remote));
     }
-
 }
-
